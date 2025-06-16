@@ -1,0 +1,1 @@
+export { default as MovieDetailsView } from './movie_details_view';
