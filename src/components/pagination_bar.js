@@ -1,12 +1,16 @@
 import ReactPaginate from 'react-paginate';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPage } from '../redux/thunks/movies_thunks';
 
-const PaginationBar = ({ getPage, pageCount }) => {
-    
+const PaginationBar = () => {
+    const dispatch = useDispatch();
+    const { pageCount, loading } = useSelector((state) => state.movies);
+
     const handlePageClick = (data) => {
-        console.log(data.selected + 1)
-        getPage(data.selected + 1)
+        if (!loading)
+            dispatch(getPage(data.selected + 1));
     }
-    
+
     return (
         <ReactPaginate
             breakLabel="..."
@@ -26,8 +30,10 @@ const PaginationBar = ({ getPage, pageCount }) => {
             breakClassName={"page-item"}
             breakLinkClassName={"page-link"}
             activeClassName={"active"}
+            forcePage={0}
+            disableInitialCallback={true}
         />
     )
 }
 
-export default PaginationBar
+export default PaginationBar;
