@@ -9,15 +9,7 @@ const MoviesList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        await dispatch(getAllMovies());
-      } catch (err) {
-        console.error("Failed to fetch movies:", err);
-      }
-    };
-
-    fetchMovies();
+    dispatch(getAllMovies());
   }, [dispatch]);
 
   if (loading) return <div className="text-center p-5">جاري التحميل...</div>;

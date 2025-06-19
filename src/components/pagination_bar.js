@@ -4,22 +4,26 @@ import { getPage } from '../redux/thunks/movies_thunks';
 
 const PaginationBar = () => {
     const dispatch = useDispatch();
-    const { pageCount, loading } = useSelector((state) => state.movies);
+    const { pageCount, currentPage } = useSelector((state) => state.movies);
+    
+    const forcePageValue = currentPage ? currentPage - 1 : 0;
 
-    const handlePageClick = (data) => {
-        if (!loading)
-            dispatch(getPage(data.selected + 1));
+    const handlePageClick = (event) => {
+        dispatch(getPage(event.selected + 1));
     }
 
     return (
         <ReactPaginate
+            previousLabel="السابق"
             breakLabel="..."
             nextLabel="التالى"
-            onPageChange={handlePageClick}
+            initialPage={0}
+            pageRangeDisplayed={3}
             marginPagesDisplayed={2}
-            pageRangeDisplayed={2}
             pageCount={pageCount}
-            previousLabel="السابق"
+            forcePage={forcePageValue}
+            onPageChange={handlePageClick}
+            // styles
             containerClassName={"pagination justify-content-center p-3"}
             pageClassName={"page-item"}
             pageLinkClassName={"page-link"}
@@ -30,7 +34,6 @@ const PaginationBar = () => {
             breakClassName={"page-item"}
             breakLinkClassName={"page-link"}
             activeClassName={"active"}
-            forcePage={0}
             disableInitialCallback={true}
         />
     )

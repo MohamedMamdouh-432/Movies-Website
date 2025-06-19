@@ -7,19 +7,15 @@ import { getMovieDetails } from "../redux/thunks/movies_thunks";
 const MovieDetailsView = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
-    const { movie } = useSelector((state) => state.movies);
+    const { movie, loading, error } = useSelector((state) => state.movies);
 
     useEffect(() => {
-        const fetchMovieDetails = async () => {
-            try {
-                await dispatch(getMovieDetails(id));
-            } catch (err) {
-                console.error("Failed to fetch movie details:", err);
-            }
-        };
-        fetchMovieDetails();
+        dispatch(getMovieDetails(id));
     }, [id, dispatch]);
 
+    if (loading) return <div className="text-center p-5">جاري التحميل...</div>;
+    if (error) return <div className="text-center p-5 text-danger">حدث خطأ: {error}</div>;
+    
     return (
         <div>
             <Row className="justify-content-center">

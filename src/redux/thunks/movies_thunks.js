@@ -1,11 +1,11 @@
 import axios from 'axios';
+import logger from '../../utils/logger';
 import { setMovies, setMovie, setLoading, setError } from '../reducer/movies_reducer';
 
 export const getAllMovies = () => async (dispatch) => {
     try {
         dispatch(setLoading(true));
         const res = await axios.get("https://api.themoviedb.org/3/movie/popular?api_key=2ee990250899858808ca582fd12bc9fc&language=ar");
-        console.log(res.data);
         dispatch(setMovies(res.data));
     } catch (error) {
         dispatch(setError(error.message));
@@ -29,6 +29,7 @@ export const getMovieDetails = (movieId) => async (dispatch) => {
 export const getPage = (page) => async (dispatch) => {
     try {
         dispatch(setLoading(true));
+        logger.debug(page);
         const res = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=2ee990250899858808ca582fd12bc9fc&language=ar&page=${page}`);
         dispatch(setMovies(res.data));
     } catch (error) {
